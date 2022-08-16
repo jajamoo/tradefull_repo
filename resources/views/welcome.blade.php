@@ -220,17 +220,20 @@
                         <div class="text-center"><button type="submit">Submit Order</button></div>
                     </form>
 
-                    <form action="{{url('delete-order')}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="form-group">
-                            <input type="text" name="delete_order" class="form-control" id="delete_order" placeholder="order_id"/>
-                            <div class="validate"></div>
-                        </div>
-                        <div class="text-center"><button type="submit">Delete</button></div>
-                    </form>
+                    <div class="delete-div">
+                        <form action="{{url('delete-order')}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <div class="form-group">
+                                <input type="text" name="delete_order" class="form-control" id="delete_order" placeholder="order_id"/>
+                                <div class="validate"></div>
+                            </div>
+                            <div class="text-center"><button type="submit">Delete</button></div>
+                        </form>
+                    </div>
 
-                    <a href="{{ url('show-orders', $params) }}">
+
+                    <a href="{{ url('show-orders') }}">
                         <i class="icon-dashboard"></i>
                         <span class="menu-text"> Show Orders </span>
                     </a>

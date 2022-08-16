@@ -94,6 +94,6 @@ class WebController extends Controller
     {
         $orders = Order::all();
 
-        return view('orders.show', compact('orders'));
+        return view('orders', compact('orders'));
     }
 }

@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('show-orders', 'WebController@showOrders');
-Route::post('add-order', 'WebController@addOrder');
-Route::post('delete-order', 'WebController@deleteOrder');
+Route::get('show-orders', 'App\Http\Controllers\WebController@showOrders');
+Route::post('add-order', 'App\Http\Controllers\WebController@addOrder');
+Route::post('delete-order', 'App\Http\Controllers\WebController@deleteOrder');
 
