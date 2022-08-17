@@ -223,20 +223,21 @@
                     <div class="delete-div">
                         <form action="{{url('delete-order')}}" method="POST">
                             @csrf
-                            @method('DELETE')
                             <div class="form-group">
-                                <input type="text" name="delete_order" class="form-control" id="delete_order" placeholder="order_id"/>
+                                <input type="text" name="delete_order" class="form-control" id="delete_order" placeholder="order_id" data-rule="minlen:1" data-msg="Please enter at least 1 character" />
                                 <div class="validate"></div>
                             </div>
                             <div class="text-center"><button type="submit">Delete</button></div>
                         </form>
                     </div>
 
+                    <div id="show-orders" style="width:800px; margin:0 auto;">
+                        <a href="{{ url('show-orders') }}" >
+                            <i class="icon-dashboard"></i>
+                            <span class="menu-text"> Show Orders </span>
+                        </a>
+                    </div>
 
-                    <a href="{{ url('show-orders') }}">
-                        <i class="icon-dashboard"></i>
-                        <span class="menu-text"> Show Orders </span>
-                    </a>
                 </div>
 
             </div>
