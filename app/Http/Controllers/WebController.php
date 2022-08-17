@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CheckInStateOrdersEvent;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -44,6 +45,8 @@ class WebController extends Controller
         $order->country     = $input['country'];
 
         if ($order->save()){
+            //Event driven code to queue up a job that sees if any orders are NOT from Ohio - if they are NOT, they are deleted!
+            event(new CheckInStateOrdersEvent($order));
             return redirect('/')->with('success', 'Order has been created');
         }
         return false;
