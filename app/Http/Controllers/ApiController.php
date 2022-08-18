@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Repositories\OrderRepository;
+use App\Services\OrderService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -14,7 +15,7 @@ class ApiController extends Controller
 {
     CONST NO_ORDERS_FOUND = 'No Orders Found';
 
-    public function getPrints(Request $request, OrderRepository $orderRepository)
+    public function getPrints(Request $request, OrderService $order_service)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|int|exists:orders',
@@ -31,7 +32,7 @@ class ApiController extends Controller
             return response()->json($error['message'], $error['status']);
         }
 
-        $orders = $orderRepository->getOrderWithJsonPayload($request['id']);
+        $orders = $order_service->getOrderWithJsonPayload($request['id']);
         if($orders){
             return response()->json($orders);
         }
@@ -39,7 +40,7 @@ class ApiController extends Controller
 
     }
 
-    public function getShirts(Request $request, OrderRepository $orderRepository)
+    public function getShirts(Request $request, OrderService $order_service)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|int|exists:orders',
@@ -56,7 +57,7 @@ class ApiController extends Controller
             return response()->json($error['message'], $error['status']);
         }
 
-        $orders = $orderRepository->getOrderWithXMLPayload($request['id']);
+        $orders = $order_service->getOrderWithXMLPayload($request['id']);
         if($orders){
             return response()->json($orders);
         }

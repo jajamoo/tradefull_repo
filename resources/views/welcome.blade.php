@@ -179,7 +179,8 @@
                 </div>
 
                 <div class="col-lg-5 col-md-12" data-aos="fade-up" data-aos-delay="300" style="width:800px; margin:0 auto;">
-                    <form action="{{ url('add-order') }}" method="post" role="form" class="php-email-form">
+                    <form action="{{ url('add-order') }}" method="post" role="form" class="php-email-form" name="create_order_form">
+                        @csrf
                         <div class="form-group">
                             <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars" />
                             <div class="validate"></div>
@@ -201,7 +202,7 @@
                             <div class="validate"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="state" class="form-control" id="state" placeholder="State" data-rule="maxlen:2" data-msg="Maximum 2 chars" />
+                            <input type="text" name="state" class="form-control" id="state" placeholder="State" data-rule="maxlen:2" data-msg="Maximum 2 chars" maxlength = "2"/>
                             <div class="validate"></div>
                         </div>
                         <div class="form-group">
@@ -209,7 +210,7 @@
                             <div class="validate"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="country" class="form-control" id="country" placeholder="Country" data-rule="maxlen:2" data-msg="Maximum 2 chars" />
+                            <input type="text" name="country" class="form-control" id="country" placeholder="Country" data-rule="maxlen:2" data-msg="Maximum 2 chars" maxlength = "2"/>
                             <div class="validate"></div>
                         </div>
                         <div class="mb-3">
@@ -221,13 +222,27 @@
                     </form>
 
                     <div class="delete-div">
-                        <form action="{{url('delete-order')}}" method="POST">
+                        <form action="{{url('delete-order')}}" method="POST" class="php-email-form">
                             @csrf
                             <div class="form-group">
-                                <input type="text" name="delete_order" class="form-control" id="delete_order" placeholder="order_id" data-rule="minlen:1" data-msg="Please enter at least 1 character" />
+                                <input type="text" name="delete_order_id" class="form-control" id="delete_order_id" placeholder="order_id" data-rule="minlen:1" data-msg="Please enter at least 1 character" />
                                 <div class="validate"></div>
                             </div>
                             <div class="text-center"><button type="submit">Delete</button></div>
+                        </form>
+                    </div>
+
+                    <div class="update-div">
+                        <form action="{{url('update-order')}}" method="POST" class="php-email-form">
+                            @csrf
+                            <div class="form-group">
+                                <input type="text" name="update_order_id" class="form-control" id="update_order_id" placeholder="Order ID" data-rule="minlen:1" data-msg="Please enter at least 1 character" />
+                                <div class="validate"></div>
+                            </div><div class="form-group">
+                                <input type="text" name="update_order_address" class="form-control" id="update_order_address" placeholder="Update your Address 2 field" data-rule="minlen:1" data-msg="Please enter at least 1 character" />
+                                <div class="validate"></div>
+                            </div>
+                            <div class="text-center"><button type="submit">Update Address 2</button></div>
                         </form>
                     </div>
 

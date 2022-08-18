@@ -31,18 +31,17 @@ class WebController extends Controller
             ];
             return response()->json($error['message'], $error['status']);
         }
-        $input = $request->all();
-
         $order = new Order();
 
-        $order->first_name  = $input['first_name'];
-        $order->last_name   = $input['last_name'];
-        $order->address_1   = $input['address_1'];
-        $order->address_2   = $input['address_2'] ?? null;
-        $order->city        = $input['city'];
-        $order->state       = $input['state'];
-        $order->postal_code = $input['postal_code'];
-        $order->country     = $input['country'];
+        $order->user_id = 1;
+        $order->first_name  = $request->input('first_name');
+        $order->last_name   = $request->input('last_name');
+        $order->address_1   = $request->input('address_1');
+        $order->address_2   = $request->input('address_2') ?? null;
+        $order->city        = $request->input('city');
+        $order->state       = $request->input('state');
+        $order->postal_code = $request->input('postal_code');
+        $order->country     = $request->input('country');
 
         if ($order->save()){
             //Event driven code to queue up a job that sees if any orders are NOT from Ohio - if they are NOT, they are deleted!
@@ -54,8 +53,9 @@ class WebController extends Controller
 
     public function deleteOrder(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'id' => 'required|int|exists:orders',
+            'delete_order_id' => 'required|int|exists:orders',
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +69,9 @@ class WebController extends Controller
             return response()->json($error['message'], $error['status']);
         }
 
-        $id = $request->get('order_id');
+        $id = (int) $request->input('delete_order_id');
+        var_dump($id);
+
         $order = Order::find($id);
         $order->delete();
 
@@ -79,7 +81,8 @@ class WebController extends Controller
     public function updateOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|int|exists:orders',
+            'update_order_id' => 'required|int|exists:orders',
+            'update_order_address' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -91,6 +94,17 @@ class WebController extends Controller
                 'status'  => 400
             ];
             return response()->json($error['message'], $error['status']);
+        }
+        $updated = Order::where('id', (int) $request->input('update_order_id'))
+            ->update([
+                'address_2' => $request->input('update_order_address')
+            ]);
+
+        if ($updated)
+        {
+            return redirect('/')->with('success', 'Order Updated');
+        } else {
+            return redirect('/')->with('failure', 'Order Update Failed');
         }
     }
     public function showOrders()
